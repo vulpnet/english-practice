@@ -27,7 +27,7 @@ jobs:
         run: dotnet workload install maui-android --skip-sign-check
 
       - name: Restore NuGet packages
-        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFrameworks=net9.0-android
+        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFramework=net9.0-android
 
       - name: Build Android APK (Debug)
         run: |
