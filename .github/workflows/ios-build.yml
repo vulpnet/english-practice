@@ -25,7 +25,7 @@ jobs:
 
       # ── 4. Restore ───────────────────────────────────────────────
       - name: Restore NuGet packages
-        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj
+        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFrameworks=net9.0-ios
 
       # ── 5. Build iOS (simulator — không cần Apple certificate) ───
       #    Tạo ra file .app chạy được trên iOS Simulator
@@ -94,7 +94,7 @@ jobs:
           cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Restore NuGet packages
-        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj
+        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFrameworks=net9.0-ios
 
       # Build IPA thật — chạy được trên thiết bị thật
       - name: Build IPA
