@@ -19,7 +19,7 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      # ── 3. MAUI workload ─────────────────────────────────────────
+      # ── 3. MAUI workload — pin to 9.0.100 (iOS SDK 18.x, Xcode 16) ──
       - name: Install MAUI workloads
         run: dotnet workload install maui-ios maui-android --version 9.0.100 --skip-sign-check
 
