@@ -19,20 +19,15 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      # ── 3. Select Xcode 16 (compatible with .NET 9 MAUI iOS) ────
-      - name: Select Xcode 16
-        run: sudo xcode-select -s /Applications/Xcode_16.app
-
-      # ── 4. MAUI workload ─────────────────────────────────────────
+      # ── 3. MAUI workload ─────────────────────────────────────────
       - name: Install MAUI workloads
-        run: dotnet workload install maui-ios maui-android --skip-sign-check
+        run: dotnet workload install maui-ios maui-android --version 9.0.100 --skip-sign-check
 
       # ── 4. Restore ───────────────────────────────────────────────
       - name: Restore NuGet packages
         run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj
 
-      # ── 5. Build iOS (simulator — không cần Apple certificate) ───
-      #    Tạo ra file .app chạy được trên iOS Simulator
+      # ── 5. Build iOS (simulator) ──────────────────────────────────
       - name: Build iOS Simulator
         run: |
           dotnet build src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj \
@@ -44,7 +39,7 @@ jobs:
             -p:EnableCodeSigning=false \
             -p:BuildIpa=false
 
-      # ── 6. Upload .app artifact ───────────────────────────────────
+      # ── 6. Upload ─────────────────────────────────────────────────
       - name: Upload iOS Simulator App
         uses: actions/upload-artifact@v4
         with:
@@ -70,7 +65,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_16.app
 
       - name: Install MAUI workloads
-        run: dotnet workload install maui-ios maui-android --skip-sign-check
+        run: dotnet workload install maui-ios maui-android --version 9.0.100 --skip-sign-check
 
       # Import certificate từ GitHub Secret
       - name: Import Apple Certificate
