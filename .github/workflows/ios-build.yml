@@ -52,9 +52,7 @@ jobs:
   build-ipa:
     runs-on: macos-15
     # Chỉ chạy khi có đủ secrets — bỏ comment if: sau khi setup certificate
-    if: >
-      github.event_name == 'workflow_dispatch' &&
-      secrets.APPLE_CERTIFICATE_BASE64 != ''
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
