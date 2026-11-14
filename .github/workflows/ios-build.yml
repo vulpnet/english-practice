@@ -20,12 +20,12 @@ jobs:
           dotnet-version: '9.0.x'
 
       # ── 3. MAUI workload ─────────────────────────────────────────
-      - name: Install MAUI workload
-        run: dotnet workload install maui-ios --skip-sign-check
+      - name: Install MAUI workloads
+        run: dotnet workload install maui-ios maui-android --skip-sign-check
 
       # ── 4. Restore ───────────────────────────────────────────────
       - name: Restore NuGet packages
-        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFramework=net9.0-ios
+        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj
 
       # ── 5. Build iOS (simulator — không cần Apple certificate) ───
       #    Tạo ra file .app chạy được trên iOS Simulator
@@ -62,8 +62,8 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Install MAUI workload
-        run: dotnet workload install maui-ios --skip-sign-check
+      - name: Install MAUI workloads
+        run: dotnet workload install maui-ios maui-android --skip-sign-check
 
       # Import certificate từ GitHub Secret
       - name: Import Apple Certificate
@@ -94,7 +94,7 @@ jobs:
           cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Restore NuGet packages
-        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj -p:TargetFramework=net9.0-ios
+        run: dotnet restore src/EnglishPractice.Mobile/EnglishPractice.Mobile.csproj
 
       # Build IPA thật — chạy được trên thiết bị thật
       - name: Build IPA
