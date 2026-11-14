@@ -12,7 +12,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
-        builder.UseMaui().UseMauiCommunityToolkit();
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
 
         builder.Services.AddSingleton<ApiService>();
         builder.Services.AddSingleton<DatabaseService>();
