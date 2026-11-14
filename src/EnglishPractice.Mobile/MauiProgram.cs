@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui;
+using Microsoft.Maui.Hosting;
 using EnglishPractice.Mobile.Services;
 using EnglishPractice.Mobile.ViewModels;
 using EnglishPractice.Mobile.Views;
