@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/node_modules/
+*.user
+*.suo
+.git
+.gitignore
+README.md
+DEPLOYMENT.md
+tests/
+src/EnglishPractice.Mobile/

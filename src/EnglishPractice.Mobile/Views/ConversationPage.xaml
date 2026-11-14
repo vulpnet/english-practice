@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EnglishPractice.Mobile.ViewModels"
+             x:Class="EnglishPractice.Mobile.Views.ConversationPage"
+             x:DataType="vm:ConversationViewModel">
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" BackgroundColor="{AppThemeBinding Light=#1976D2, Dark=#0D47A1}" Padding="16,12"
+              ColumnDefinitions="*,Auto">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="{Binding ScenarioName}" TextColor="White" FontAttributes="Bold" FontSize="18"/>
+                <Label Text="{Binding Status}" TextColor="#B3E5FC" FontSize="12"/>
+            </VerticalStackLayout>
+            <ActivityIndicator Grid.Column="1" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="White" WidthRequest="24" HeightRequest="24"/>
+        </Grid>
+
+        <!-- Chat list -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" x:Name="ChatList"
+                        Margin="8,4" VerticalOptions="Fill">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ChatMessage">
+                    <Grid Margin="0,4" ColumnDefinitions="*,*">
+
+                        <!-- User bubble -->
+                        <Border Grid.Column="1" IsVisible="{Binding IsUser}"
+                                HorizontalOptions="End" MaximumWidthRequest="260"
+                                BackgroundColor="{AppThemeBinding Light=#1976D2, Dark=#0D47A1}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 16,16,4,16" Padding="12,8">
+                            <Label Text="{Binding Content}" TextColor="White" FontSize="14"/>
+                        </Border>
+
+                        <!-- AI bubble -->
+                        <VerticalStackLayout Grid.Column="0" IsVisible="{Binding IsUser, Converter={x:StaticResource InvertedBoolConverter}}"
+                                            HorizontalOptions="Start" MaximumWidthRequest="280" Spacing="4">
+                            <Border BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                                    StrokeThickness="0" StrokeShape="RoundRectangle 4,16,16,16" Padding="12,8">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding Content}" FontSize="14"/>
+
+                                    <Border IsVisible="{Binding HasCorrection}"
+                                            BackgroundColor="{AppThemeBinding Light=#FFF8E1, Dark=#3E2723}"
+                                            StrokeThickness="1" Stroke="Orange"
+                                            StrokeShape="RoundRectangle 8" Padding="8">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="📝 Correction" FontAttributes="Bold" FontSize="11" TextColor="Orange"/>
+                                            <Label Text="{Binding OriginalText, StringFormat='Original: {0}'}" FontSize="11" TextColor="Gray"/>
+                                            <Label Text="{Binding CorrectedText, StringFormat='✓ {0}'}" FontSize="11" TextColor="Green"/>
+                                            <Label Text="{Binding Explanation}" FontSize="11"
+                                                   IsVisible="{Binding Explanation, Converter={x:StaticResource StringNotEmptyConverter}}"/>
+                                            <Label Text="{Binding NaturalExpression, StringFormat='💡 {0}'}" FontSize="11" TextColor="#1565C0"
+                                                   IsVisible="{Binding NaturalExpression, Converter={x:StaticResource StringNotEmptyConverter}}"/>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+                            <Button Text="🔊" WidthRequest="36" HeightRequest="28" FontSize="14"
+                                    BackgroundColor="Transparent" Padding="0"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ConversationViewModel}}, Path=SpeakMessageCommand}"
+                                    CommandParameter="{Binding Content}"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bottom bar -->
+        <Border Grid.Row="2" BackgroundColor="{AppThemeBinding Light=White, Dark=#1C1C1C}"
+                Stroke="{AppThemeBinding Light=LightGray, Dark=#333}" StrokeThickness="1"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                <Label Grid.Column="0" Text="{Binding CurrentTranscript}" FontSize="13" VerticalOptions="Center"
+                       TextColor="Gray" LineBreakMode="TailTruncation"/>
+                <Button Grid.Column="1" Text="🔇" Command="{Binding StopSpeakingCommand}"
+                        BackgroundColor="Transparent" WidthRequest="44" HeightRequest="44"/>
+                <Button Grid.Column="2" Text="🎙️"
+                        Command="{Binding StartRecordingCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={x:StaticResource InvertedBoolConverter}}"
+                        WidthRequest="60" HeightRequest="60" CornerRadius="30"
+                        BackgroundColor="{Binding IsRecording, Converter={x:StaticResource BoolToRecordColorConverter}}"
+                        TextColor="White" FontSize="22"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>
